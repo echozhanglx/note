@@ -58,10 +58,12 @@ zabbix安装好，就要初始database，
 1.vi /etc/zabbix/zabbix_server.conf
  - DBHost=
  - DBName=
- - DBPassword=
+ - DBPassword=  
+ 
 全部弄好之后呢，就可以启动咯  
-systemctl start httpd
-systemctl start zabbix-server  
+ - systemctl start httpd
+ - systemctl start zabbix-server  
+ 
 启动完后，就用浏览器访问上面搭建的zabbix AP服务器，应该就能看到初始见面了，按照上的流程，各种下一步就可以了，这里就省略了。
 
 ### 4.搭建Zabbix Proxy服务器
@@ -77,7 +79,7 @@ zabbix proxy服务器存在的意义就是，上面也说了，最重要的一�
 - yum -y install http://dev.mysql.com/get/mysql80-community-release-el7-2.noarch.rpm
 - yum install mysql-community-server
 - systemctl start mysqld.service
-- cat /var/log/mysqld.log | grep password （取得初始密码）
+- cat /var/log/mysqld.log|grep password （取得初始密码）
 - mysql_secure_installation （MySQL设置） 
 
 安装完后数据库，就要安装proxy了
