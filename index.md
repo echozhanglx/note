@@ -88,12 +88,16 @@ zabbix proxy服务器存在的意义就是，上面也说了，最重要的一�
 
 然后就是就是编辑设置文件了
 - vi /etc/zabbix/zabbix-proxy.conf
+
 1. 设置Proxy的模式
    - ProxyMode （推荐使用1，proxyMode=1，被动模式passive mode，也就是zabbix AP主动过来拿数据，0的话是主动模式active mode,不管ZabbixAP死活，数据送过去就完了）
+   
 2. 登录zabbix AP服务器的IP（DNS）
    - Server= （注意：当ProxyMode为被动模式的时候，没有写在这里的IP都会被静止访问，所以当zabbix AP服务器有复数IP可能的时候，请全部写上用逗号隔开）
+   
 3. 登录Proxy的名字
    - HostName = (注意：这里要和zabbix AP画面上登录的Proxy的名字要一样，这一块会在后面登录）
+   
 4. 登录Proxy使用的DataBase
    - DBHost=
    - DBName=
