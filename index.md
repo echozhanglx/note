@@ -34,20 +34,23 @@
 - Zabbix: zabbix 4.0LTS
 - MySQL: 5.7.21(Azure Database for MySQL支持的最高版本…)
 - Apache: 2.4.39
-- PHP: 7.3
-安装zabbix AP服务器其实很简单，首先要安装一些middleware，因为这次用的小红帽（red Hat），所用就祭出了yum大法了（yum大法好啊）
-1.yum install httpd (安装apache）
-2.yum install php php-gd php-bcmath php-mbstring php-mysqlnd php-xml (安装PHP）
-3.因为Database是使用azure的PaaS，所以就省略咯，因为是PaaS所以很简单，看Azure的文档就好了
-4.最后，当然要把讨厌的SELunix给无效掉
- - vi /etc/selinux/config 
- - SELINUX=enforcing
-5.PS:因为后面还要构建HA，所以httpd就不用设置成自动启动了
-安装完上面的middleware之后，就要安装zabbix了，依然是yum大法好
-1.rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
-2.yum install zabbix-server-mysql
-3.yum install zabbix-web-mysql
-zabbix安装好，就要初始database，
+- PHP: 7.3  
+
+安装zabbix AP服务器其实很简单，首先要安装一些middleware，因为这次用的小红帽（red Hat），所用就祭出了yum大法了（yum大法好啊）  
+1.yum install httpd (安装apache）  
+2.yum install php php-gd php-bcmath php-mbstring php-mysqlnd php-xml (安装PHP）  
+3.因为Database是使用azure的PaaS，所以就省略咯，因为是PaaS所以很简单，看Azure的文档就好了  
+4.最后，当然要把讨厌的SELunix给无效掉  
+  - vi /etc/selinux/config 
+  - SELINUX=enforcing  
+  
+5.PS:因为后面还要构建HA，所以httpd就不用设置成自动启动了  
+
+安装完上面的middleware之后，就要安装zabbix了，依然是yum大法好  
+1.rpm -Uvh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm  
+2.yum install zabbix-server-mysql  
+3.yum install zabbix-web-mysql  
+zabbix安装好，就要初始database，  
 1.链接DataBase服务器 ex Mysql -h(database host) -u(databse id) -p
 2.新建zabbix用的数据库 create database zabbix；
 3.初始化DB zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -h -u(你的DB账号）-p zabbix
@@ -56,28 +59,31 @@ zabbix安装好，就要初始database，
  - DBHost=
  - DBName=
  - DBPassword=
-全部弄好之后呢，就可以启动咯
+全部弄好之后呢，就可以启动咯  
 systemctl start httpd
-systemctl start zabbix-server
+systemctl start zabbix-server  
 启动完后，就用浏览器访问上面搭建的zabbix AP服务器，应该就能看到初始见面了，按照上的流程，各种下一步就可以了，这里就省略了。
 
 ### 4.搭建Zabbix Proxy服务器
 
-zabbix proxy的工作原理就是，把监视对象的监视数据全部汇总后，有proxy负责发送给zabbix AP服务器。
+zabbix proxy的工作原理就是，把监视对象的监视数据全部汇总后，有proxy负责发送给zabbix AP服务器。  
 zabbix proxy服务器存在的意义就是，上面也说了，最重要的一点就是可以分担zabbix AP服务器的负担。因为当没有Proxy的时候，所有的监视数据的取得，判断全部都是有zabbix AP一个人来干。当数据多的时候，就不能在短时间处理完，而导致监视发生延迟。第二点就是，在一个相对隔离的环境中，为了减少频繁跟外界存在的zabbix AP服务器进行通信的时候，也可以在相同的环境中搭建一个proxy，可惜把监视数据先汇总到proxy服务器，再有proxy服务器发送给zabbix AP服务器。
 系统要件如下：
 - OS： Red Hat Enterprise Linux 7.6
 - Zabbix: zabbix Proxy 4.0LTS
-- MySQL: 7.2
+- MySQL: 7.2  
+
 由于zabbix proxy不需要database以外的middleware，所以只安装了MySQL，而且还因为zabbix proxy的数据库，一般在把数据发送给zabbix AP以后，就会清空数据库，所以就没有设计数据库的备份啥的
 - yum -y install http://dev.mysql.com/get/mysql80-community-release-el7-2.noarch.rpm
 - yum install mysql-community-server
 - systemctl start mysqld.service
 - cat /var/log/mysqld.log | grep password （取得初始密码）
-- mysql_secure_installation （MySQL设置）
+- mysql_secure_installation （MySQL设置） 
+
 安装完后数据库，就要安装proxy了
 - rpm -ivh https://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
 - yum install zabbix-proxy
+
 然后就是就是编辑设置文件了
 - vi /etc/zabbix/zabbix-proxy.conf
 1. 设置Proxy的模式
