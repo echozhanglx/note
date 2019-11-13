@@ -14,7 +14,7 @@
 
 历时半年的项目主要是为客户搭建一个可以大规模监视zabbix。最后的交货的时候监视的个数如下：
 - 监视对象（hosts）：4000台
-- 监视项目（items）：40万
+- 监视项目（items）：40万个  
 在搭建的过程中，经历过无数次监视延迟，因为数据太多导致zabbix不工作。所以，为了不让自己忘记当时是如何整理的，也算是复习笔记，撑着项目之间的空白期整理一下。
 
 ### 2.infrastructure的构造简介
@@ -110,10 +110,10 @@ zabbix proxy服务器存在的意义就是，上面也说了，最重要的一�
 
 ## 总结
 
-这样的话，一个带有Proxy的Zabbix服务器就搭建好了。其实zabbix的搭建还是很简单，没什么难度。当然这只是最低限的搭建，明天我会介绍大规模监视的时候需要调教哪些parameter
-如果想查看log啥的，zabbix AP的log在/var/log/zabbix/zabbix-server.log
-zabbix Proxy的在 /var/log/zabbix/zabbix-proxy.log
-当他们工作异常的时候，请查看日志就好。
+这样的话，一个带有Proxy的Zabbix服务器就搭建好了。其实zabbix的搭建还是很简单，没什么难度。当然这只是最低限的搭建，明天我会介绍大规模监视的时候需要调教哪些parameter  
+如果想查看log啥的，zabbix AP的log在/var/log/zabbix/zabbix-server.log  
+zabbix Proxy的在 /var/log/zabbix/zabbix-proxy.log  
+当他们工作异常的时候，请查看日志就好。  
 
 ## 预告
 
