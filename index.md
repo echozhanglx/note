@@ -51,11 +51,11 @@
 2.yum install zabbix-server-mysql  
 3.yum install zabbix-web-mysql  
 zabbix安装好，就要初始database，  
-1.链接DataBase服务器 ex Mysql -h(database host) -u(databse id) -p
-2.新建zabbix用的数据库 create database zabbix；
-3.初始化DB zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -h -u(你的DB账号）-p zabbix
-之后编辑zabbix的设定文件，在这里就先把数据库的信息写入
-1.vi /etc/zabbix/zabbix_server.conf
+1.链接DataBase服务器 ex Mysql -h(database host) -u(databse id) -p  
+2.新建zabbix用的数据库 create database zabbix；  
+3.初始化DB zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -h -u(你的DB账号）-p zabbix  
+之后编辑zabbix的设定文件，在这里就先把数据库的信息写入  
+1.vi /etc/zabbix/zabbix_server.conf  
  - DBHost=
  - DBName=
  - DBPassword=  
