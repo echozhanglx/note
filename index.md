@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+## Zabbix构建博客第一篇
 
-You can use the [editor on GitHub](https://github.com/echozhanglx/note/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+## 之如何构建可以大规模监视的Zabbix
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### 目录
+1. 前言
+2. infrastructure的构造简介
+3. 搭建zabbix AP服务器
+4. 搭建zabbix proxy服务器
+5. 监视设计
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### 前言
 
-```markdown
-Syntax highlighted code block
+历时半年的项目主要是为客户搭建一个可以大规模监视zabbix。最后的交货的时候监视的个数如下：
+- 监视对象（hosts）：4000台
+- 监视项目（items）：40万
+在搭建的过程中，经历过无数次监视延迟，因为数据太多导致zabbix不工作。所以，为了不让自己忘记当时是如何整理的，也算是复习笔记，撑着项目之间的空白期整理一下。
 
-# Header 1
-## Header 2
-### Header 3
+### infrastructure的构造简介
 
-- Bulleted
-- List
+![infrastructure](/img/infra.PNG) 
 
-1. Numbered
-2. List
+如上图所示，此次infrastructure的设计有以下特点
+- zabbix的AP服务器和所使用的数据库，使用Azure的服务
+- 并且使用Azure Site Recovery实现DR(灾害对应）
+- 因为客户的环境有很多服务器和Network机器在本地，所以在本地搭建了一个zabbix proxy服务器，一是为了减少和Azure之间的通信次数，二是为了给Zabbix AP减少负担
+- 为了保证监视服务器的高可用性，zabbix的AP和Proxy全部使用Pacemaker和corosync搭建成HA构成（Azure和本地的failover方式不同，在后面会介绍）
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/echozhanglx/note/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
