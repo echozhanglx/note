@@ -7,7 +7,7 @@
 3. 搭建zabbix AP服务器
 4. 搭建zabbix proxy服务器
 5. 总结
-6. 预告
+6. 预告[link](/note2.md)
 
 
 ### 1.前言
@@ -118,4 +118,5 @@ zabbix Proxy的在 /var/log/zabbix/zabbix-proxy.log
 ## 预告
 
 大规模监视的时候，需要调教那些parameter！
+更新啦！[link](/note2.md)
 
